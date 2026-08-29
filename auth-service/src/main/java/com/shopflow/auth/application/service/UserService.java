@@ -6,6 +6,7 @@ import com.shopflow.auth.domain.enums.Role;
 import com.shopflow.auth.domain.model.User;
 import com.shopflow.auth.domain.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -15,6 +16,7 @@ import java.time.LocalDateTime;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public User createUser(CreateUserRequest request){
 
@@ -26,7 +28,7 @@ public class UserService {
                 null,
                 request.name(),
                 request.email(),
-                request.password(),
+                passwordEncoder.encode(request.password()),
                 Role.USER,
                 LocalDateTime.now(),
                 LocalDateTime.now()
